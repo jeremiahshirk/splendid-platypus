@@ -1,3 +1,4 @@
+#! /usr/bin/env python
 import os
 
 class Lexicon:
@@ -31,16 +32,12 @@ class Platypus:
     def add_lexicon(self, lex):
         self.lexicons.append(lex)
 
-    def __iter__(self):
-        return self
+    def words(self):
+        for index in xrange(self.length()):
+            yield [lex.word(index) for lex in self.lexicons]
 
-    def next(self):
-        ret = []
-        for lex in self.lexicons:
-            ret.append(lex.word(self.index))
-
-        self.index +=1
-        return ret
+    def length(self):
+        return reduce(lambda x, y: x.length * y.length, self.lexicons)
 
 
 if __name__ == '__main__':
@@ -48,6 +45,11 @@ if __name__ == '__main__':
     adjectives = Lexicon("adjectives.txt", 701)
     platypus = Platypus(adjectives, nouns)
 
-    for x in range(10000):
-      print "%s-%s" % tuple(platypus.next())
+    print platypus.length()
+    #for x in xrange(100):
+    for x in platypus.words():
+        try:
+            print "%s-%s" % tuple(x)
+        except IOError, e:
+            exit(0)
 
