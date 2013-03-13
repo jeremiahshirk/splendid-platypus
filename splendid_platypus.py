@@ -45,7 +45,7 @@ if __name__ == '__main__':
     adjectives = Lexicon("adjectives.txt", 701)
     platypus = Platypus(adjectives, nouns)
 
-    print platypus.length()
+    #print platypus.length()
     #for x in xrange(100):
     for x in platypus.words():
         try:
